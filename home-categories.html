@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Categories | Blog Platform</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+        }
+
+        /* ===== Top Navbar ===== */
+        .top-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #2c3e50;
+            color: white;
+        }
+
+        .top-navbar h2 {
+            margin: 0;
+        }
+
+        .top-buttons a {
+            margin-left: 15px;
+            padding: 8px 14px;
+            background-color: #34495e;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .top-buttons a:hover {
+            background-color: #1abc9c;
+        }
+        /* ===== Container ===== */
+        .container {
+            width: 70%;
+            margin: 40px auto 120px auto;
+        }
+
+        /* ===== Category Card ===== */
+        .card {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            font-size: 18px;
+            color: #2c3e50;
+        }
+        .category-delete-btn {
+            margin-left: 10px;
+            padding: 2px 6px;
+            background-color: #e74c3c;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: background-color 0.2s ease;
+        }
+
+        .category-delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+
+        /* ===== Bottom Navbar ===== */
+        .bottom-navbar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #2c3e50;
+            padding: 10px 25px;
+            border-radius: 30px;
+            display: flex;
+            gap: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+        }
+
+        .bottom-navbar a {
+            padding: 8px 16px;
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            border-radius: 20px;
+        }
+
+        .bottom-navbar a:hover {
+            background-color: #1abc9c;
+        }
+    </style>
+</head>
+<body>
+
+<!-- ===== Top Navbar ===== -->
+<div class="top-navbar">
+    <h2>Blog Platform</h2>
+    <div class="top-buttons">
+        <a th:href="@{/api/v1/categories/newCategory}">+ New Category</a>
+        <a th:href="@{/api/v1/posts/myPosts}">Profile</a>
+    </div>
+</div>
+
+<!-- ===== Categories ===== -->
+<div class="container">
+    <span class="card" th:each="category : ${categories}">
+        <span th:text="${category.name}">Category</span>
+        <a th:href="@{'/api/v1/categories/deleteCategory/' + ${category.id}}"
+           class="category-delete-btn">Delete</a>
+    </span>
+</div>
+
+
+<!-- ===== Bottom Navbar ===== -->
+<div class="bottom-navbar">
+    <a th:href="@{/api/v1/posts/allPosts}">Home</a>
+    <a th:href="@{/api/v1/categories/allCategories}">Categories</a>
+    <a th:href="@{/api/v1/tags/allTags}">Tags</a>
+</div>
+
+</body>
+</html>

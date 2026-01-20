@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>500 - Server Error</title>
+    <style>
+        body { margin:0; font-family:Arial; background:#f5f6fa; text-align:center; }
+        h1 { font-size:80px; color:#e74c3c; }
+        p { color:#555; font-size:18px; }
+        a { padding:10px 20px; background:#2c3e50; color:white; text-decoration:none; border-radius:5px; }
+        a:hover { background:#1abc9c; }
+        .box { margin-top:120px; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h1>500</h1>
+    <p>Internal Server Error</p>
+    <a th:href="@{/api/v1/posts/allPosts}">Back to Home</a>
+</div>
+</body>
+</html>

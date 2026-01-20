@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>400 - Bad Request</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f5f6fa;
+            text-align: center;
+        }
+        .box {
+            margin-top: 120px;
+        }
+        h1 {
+            font-size: 80px;
+            color: #e74c3c;
+        }
+        p {
+            font-size: 18px;
+            color: #555;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        a:hover {
+            background: #1abc9c;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h1>400</h1>
+    <p>Bad Request</p>
+    <p th:text="${errorMessage}">Invalid request</p>
+    <a th:href="@{/api/v1/posts/allPosts}">Go Home</a>
+</div>
+</body>
+</html>

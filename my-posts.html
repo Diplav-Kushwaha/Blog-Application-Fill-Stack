@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>My Posts</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f5f6fa;
+    }
+
+    /* ===== Top Navbar (Updated) ===== */
+    .top-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background-color: #2c3e50;
+        color: white;
+    }
+
+    .top-navbar h2 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .top-buttons a {
+        margin-left: 15px;
+        padding: 8px 14px;
+        background-color: #34495e;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .top-buttons a:hover {
+        background-color: #1abc9c;
+    }
+
+    /* ===== Container ===== */
+    .container {
+        width: 75%;
+        margin: 30px auto 120px auto;
+    }
+
+    /* ===== Post Card ===== */
+    .post-card {
+        background-color: white;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 6px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .post-title a {
+        text-decoration: none;
+        color: #2980b9;
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+    .post-title a:hover {
+        text-decoration: underline;
+    }
+
+    .post-content {
+        margin-top: 10px;
+        color: #555;
+        line-height: 1.5;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
+
+    .post-meta {
+        margin-top: 12px;
+        font-size: 13px;
+        color: #777;
+    }
+
+    .actions {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 6px 14px;
+        font-size: 13px;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+    }
+
+    .view-btn {
+        background-color: #3498db;
+    }
+
+    .view-btn:hover {
+        background-color: #2980b9;
+    }
+
+    .delete-btn {
+        background-color: #e74c3c;
+    }
+
+    .delete-btn:hover {
+        background-color: #c0392b;
+    }
+
+    .empty {
+        text-align: center;
+        margin-top: 60px;
+        font-size: 18px;
+        color: #777;
+    }
+
+    /* ===== Bottom Navbar ===== */
+    .bottom-navbar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #2c3e50;
+        padding: 10px 25px;
+        border-radius: 30px;
+        display: flex;
+        gap: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    }
+
+    .bottom-navbar a {
+        padding: 8px 16px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 20px;
+    }
+
+    .bottom-navbar a:hover {
+        background-color: #1abc9c;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== Top Navbar ===== -->
+<div class="top-navbar">
+  <h2>My Posts</h2>
+  <div class="top-buttons">
+    <a th:href="@{/api/v1/posts/allPosts}">Home</a>
+    <a th:href="@{/api/v1/posts/newPost}">+ New Post</a>
+  </div>
+</div>
+
+<!-- ===== Posts ===== -->
+<div class="container">
+
+  <!-- If no posts -->
+  <div class="empty" th:if="${#lists.isEmpty(posts)}">
+    You haven’t created any posts yet.
+  </div>
+
+  <!-- Posts List -->
+  <div class="post-card" th:each="post : ${posts}">
+
+    <div class="post-header">
+      <div class="post-title">
+        <a th:href="@{/api/v1/posts/post/{id}(id=${post.id})}"
+           th:text="${post.title}">
+          Post Title
+        </a>
+      </div>
+
+      <span th:text="${post.status}"></span>
+    </div>
+
+    <div class="post-content" th:text="${post.content}">
+      Post content preview
+    </div>
+
+    <div class="post-meta">
+      Created:
+      <span th:text="${#temporals.format(post.createdAt, 'dd MMM yyyy HH:mm')}"></span>
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <a class="btn view-btn"
+         th:href="@{/api/v1/posts/post/{id}(id=${post.id})}">
+        View
+      </a>
+
+      <a class="btn delete-btn"
+         th:href="@{/api/v1/posts/deletePost/{id}(id=${post.id})}"
+         onclick="return confirm('Are you sure you want to delete this post?')">
+        Delete
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<!-- ===== Bottom Navbar ===== -->
+<div class="bottom-navbar">
+  <a th:href="@{/api/v1/posts/allPosts}">Home</a>
+  <a th:href="@{/api/v1/categories/allCategories}">Categories</a>
+  <a th:href="@{/api/v1/tags/allTags}">Tags</a>
+</div>
+
+</body>
+</html>

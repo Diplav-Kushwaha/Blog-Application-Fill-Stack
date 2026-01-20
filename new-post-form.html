@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create New Post</title>
+
+  <style>
+    body {
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        font-family: Arial, sans-serif;
+        background-color: #f5f6fa;
+    }
+
+    /* ===== Top Navbar ===== */
+    .top-navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 30px;
+        background-color: #2c3e50;
+        color: white;
+    }
+
+    .top-navbar h2 {
+        margin: 0;
+        font-size: 20px;
+    }
+
+    .top-buttons a {
+        margin-left: 15px;
+        padding: 8px 14px;
+        background-color: #34495e;
+        color: white;
+        text-decoration: none;
+        border-radius: 4px;
+        font-size: 14px;
+    }
+
+    .top-buttons a:hover {
+        background-color: #1abc9c;
+    }
+
+    /* ===== Form Layout ===== */
+    .page-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 0 120px 0;
+    }
+
+    .form-container {
+        background-color: white;
+        padding: 30px 45px;
+        border-radius: 8px;
+        width: 450px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #2c3e50;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+
+    textarea {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        background-color: #2c3e50;
+        color: white;
+        font-size: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #1abc9c;
+    }
+
+    /* ===== Bottom Navbar ===== */
+    .bottom-navbar {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #2c3e50;
+        padding: 10px 25px;
+        border-radius: 30px;
+        display: flex;
+        gap: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+    }
+
+    .bottom-navbar a {
+        padding: 8px 16px;
+        color: white;
+        text-decoration: none;
+        font-size: 14px;
+        border-radius: 20px;
+    }
+
+    .bottom-navbar a:hover {
+        background-color: #1abc9c;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== Top Navbar ===== -->
+<div class="top-navbar">
+  <h2>Blog Platform</h2>
+  <div class="top-buttons">
+    <a th:href="@{/api/v1/posts/allPosts}">Back</a>
+    <a th:href="@{/api/v1/posts/myPosts}">Profile</a>
+  </div>
+</div>
+
+<!-- ===== Form Section ===== -->
+<div class="page-wrapper">
+  <div class="form-container">
+
+    <h2>Create New Post</h2>
+
+    <form th:action="@{/api/v1/posts/createPost}"
+          th:object="${post}"
+          method="post">
+
+      <!-- Title -->
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text"
+               th:field="*{title}"
+               placeholder="Enter post title"
+               required>
+      </div>
+
+      <!-- Content -->
+      <div class="form-group">
+        <label>Content</label>
+        <textarea th:field="*{content}"
+                  placeholder="Write your post content..."
+                  required></textarea>
+      </div>
+
+      <!-- Status -->
+      <div class="form-group">
+        <label>Status</label>
+        <select th:field="*{status}" required>
+          <option value="">Select Status</option>
+          <option value="DRAFT">DRAFT</option>
+          <option value="PUBLISHED">PUBLISHED</option>
+        </select>
+      </div>
+
+      <!-- Reading Time -->
+      <div class="form-group">
+        <label>Reading Time (minutes)</label>
+        <input type="number"
+               th:field="*{readingTime}"
+               min="1"
+               required>
+      </div>
+
+      <!-- Category -->
+      <div class="form-group">
+        <label>Category</label>
+        <select name="category.id" required>
+          <option value="">Select Category</option>
+          <option th:each="cat : ${categories}"
+                  th:value="${cat.id}"
+                  th:text="${cat.name}">
+          </option>
+        </select>
+      </div>
+
+      <!-- Tags -->
+      <div class="form-group">
+        <label>Tags</label>
+        <select name="tags" multiple>
+          <option th:each="tag : ${tags}"
+                  th:value="${tag.id}"
+                  th:text="${tag.name}">
+          </option>
+        </select>
+      </div>
+
+      <button type="submit">Create Post</button>
+
+    </form>
+  </div>
+</div>
+
+<!-- ===== Bottom Navbar ===== -->
+<div class="bottom-navbar">
+  <a th:href="@{/api/v1/posts/allPosts}">Home</a>
+  <a th:href="@{/api/v1/categories/allCategories}">Categories</a>
+  <a th:href="@{/api/v1/tags/allTags}">Tags</a>
+</div>
+
+</body>
+</html>
